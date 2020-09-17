@@ -12,8 +12,22 @@ void print_usage(void)
 uint32_t read_nbo(char* filename)
 {
 	uint32_t temp;
+	int res;
 	FILE* fp = fopen(filename, "r");
-	fread(&temp,4,1,fp);
+
+	if(!fp)
+	{
+		printf("Invalid file: %s\n",filename);
+		exit(0);
+	}
+
+	res = fread(&temp,1,4,fp);
+	if(res!=4)
+	{
+		printf("invalid data in %s\n",filename);
+		exit(0);
+	}
+
 	fclose(fp);
 	
 	return ntohl(temp);
